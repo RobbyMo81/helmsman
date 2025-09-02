@@ -1,0 +1,23 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "helmsman-supervisor"
+version = "0.1.0"
+description = "Lightweight single-host CLI supervisor for ML analyzers (Streamlit + PyTorch)"
+readme = "README.md"
+authors = [{ name = "Ava Mosher & ChatGPT" }]
+license = { text = "MIT" }
+requires-python = ">=3.9"
+dependencies = [
+  "rich>=13.0",
+  "PyYAML>=6.0",
+]
+optional-dependencies = { test = ["pytest>=7.0"], streamlit = ["streamlit>=1.35"] }
+
+[project.scripts]
+helmsman = "helmsman.cli:main"
+
+[tool.setuptools.package-data]
+helmsman = ["py.typed"]
