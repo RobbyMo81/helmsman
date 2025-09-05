@@ -10,12 +10,12 @@ import CrossModelAnalytics from './components/CrossModelAnalytics';
 import { runFullAnalysis, AnalysisPayload } from './services/api';
 import { modelService } from './services/modelService';
 import { CONNECTION_ERROR_MESSAGE } from './services/config';
-import { 
-  BacktestResults, 
-  StressTestType, 
-  ModelJournal, 
-  ViewType, 
-  TestReportEntry, 
+import {
+  BacktestResults,
+  StressTestType,
+  ModelJournal,
+  ViewType,
+  TestReportEntry,
   BackendStatus,
   ModelInfo,
   ModelManagementState
@@ -28,7 +28,7 @@ import { TrainingDashboard } from './components/TrainingDashboard';
 const App: React.FC = () => {
   // State for different panels and views
   const [currentView, setCurrentView] = useState<ViewType>('baseline');
-  
+
   // State for Baseline Analysis (Level 0)
   const [file, setFile] = useState<File | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(false);
@@ -47,7 +47,7 @@ const App: React.FC = () => {
     trainingInProgress: false,
     currentTrainingJob: null
   });
-  
+
   // Legacy state for backward compatibility
   const [models, setModels] = useState<string[]>([]);
   const [selectedModel, setSelectedModel] = useState<string | null>(null);
@@ -74,7 +74,7 @@ const App: React.FC = () => {
     };
     setStressTestLog(prevLog => [...prevLog, newEntry]);
   };
-  
+
   // --- Handlers ---
   const fetchModels = useCallback(async () => {
     setBackendStatus('pending');
@@ -82,11 +82,11 @@ const App: React.FC = () => {
     const startTime = performance.now();
     try {
         const availableModels = await modelService.getModels();
-        
+
         // Handle both old string[] format and new ModelInfo[] format
         let modelNames: string[];
         let modelInfos: ModelInfo[];
-        
+
         if (Array.isArray(availableModels) && availableModels.length > 0) {
           if (typeof availableModels[0] === 'string') {
             // Old format - array of strings
@@ -109,19 +109,19 @@ const App: React.FC = () => {
           modelNames = [];
           modelInfos = [];
         }
-        
+
         setModels(modelNames);
         setModelManagement(prev => ({
           ...prev,
           availableModels: modelInfos
         }));
         setBackendStatus('connected');
-        
+
         const durationMs = performance.now() - startTime;
         handleReportResult({
-          testName, 
-          status: 'PASS', 
-          durationMs, 
+          testName,
+          status: 'PASS',
+          durationMs,
           details: `Successfully fetched ${modelNames.length} models.`
         });
     } catch (e: any) {
@@ -173,7 +173,7 @@ const App: React.FC = () => {
       setIsLoading(false);
     }
   }, []);
-  
+
   const handleSelectModel = useCallback(async (modelName: string) => {
     if (!modelName) {
       setSelectedModel(null);
@@ -203,7 +203,7 @@ const App: React.FC = () => {
         setIsJournalLoading(false);
     }
   }, []);
-  
+
   const handleTrainingComplete = () => {
       fetchModels(); // Refresh the list of models after training
   };
@@ -218,19 +218,19 @@ const App: React.FC = () => {
     let mockFile: File;
     const validCsvContent = `${REQUIRED_COLUMNS.join(',')}\n1/1/2024,1,2,3,4,5,6\n1/2/2024,7,8,9,10,11,12`;
     const badCsvContent = `header1,header2\nvalue1,value2`;
-    
+
     switch (testType) {
-        case 'CSV_PARSE_ERROR': 
-            mockFile = new File([badCsvContent], "mock_bad.csv", { type: "text/csv" }); 
+        case 'CSV_PARSE_ERROR':
+            mockFile = new File([badCsvContent], "mock_bad.csv", { type: "text/csv" });
             break;
-        default: 
-            mockFile = new File([validCsvContent], "mock_valid.csv", { type: "text/csv" }); 
+        default:
+            mockFile = new File([validCsvContent], "mock_valid.csv", { type: "text/csv" });
             break;
     }
     setFile(mockFile);
     handleLaunchAnalysis(mockFile, testType);
   };
-  
+
   const handleRunComprehensiveTest = async () => {
     setCurrentView('stress_report');
     setStressTestLog([]);
@@ -251,7 +251,7 @@ const App: React.FC = () => {
 
     // Test 4: AI Service Failure
     await handleLaunchAnalysis(mockFileValid, 'AI_FAILURE');
-    
+
     // Test 5 & 6 only if backend is connected
     if (backendStatus === 'connected') {
         // Test 5: Successful Agent Training
@@ -273,13 +273,13 @@ const App: React.FC = () => {
             };
 
             root.render(
-                <TrainingPanel 
+                <TrainingPanel
                     onTrainingComplete={onTestTrainingComplete}
                     reportResult={onTestReportResult}
                     availableModels={modelManagement.availableModels.map(model => model.name)}
                 />
             );
-            
+
             // Allow React to render the component before dispatching the event
             setTimeout(() => {
                 const form = panel.querySelector('form');
@@ -306,13 +306,13 @@ const App: React.FC = () => {
   // New model management functions
   const handleLoadModel = useCallback(async (modelName: string) => {
     setModelManagement(prev => ({ ...prev, loadingModel: true }));
-    
+
     const testName = `Load Model: ${modelName}`;
     const startTime = performance.now();
-    
+
     try {
       const response = await modelService.loadModel(modelName);
-      
+
       if (response.status === 'success') {
         setModelManagement(prev => ({
           ...prev,
@@ -320,7 +320,7 @@ const App: React.FC = () => {
           loadingModel: false,
           modelDetails: null // Will be fetched separately if needed
         }));
-        
+
         const durationMs = performance.now() - startTime;
         handleReportResult({
           testName,
@@ -342,19 +342,19 @@ const App: React.FC = () => {
       });
     }
   }, []);
-  
+
   const handleGetModelInfo = useCallback(async (modelName: string) => {
     const testName = `Get Model Info: ${modelName}`;
     const startTime = performance.now();
-    
+
     try {
       const modelDetails = await modelService.getModelInfo(modelName);
-      
+
       setModelManagement(prev => ({
         ...prev,
         modelDetails
       }));
-      
+
       const durationMs = performance.now() - startTime;
       handleReportResult({
         testName,
@@ -362,7 +362,7 @@ const App: React.FC = () => {
         durationMs,
         details: `Retrieved model info for ${modelName}`
       });
-      
+
       return modelDetails;
     } catch (e: any) {
       const durationMs = performance.now() - startTime;
@@ -375,19 +375,19 @@ const App: React.FC = () => {
       throw e;
     }
   }, []);
-  
+
   const handleGeneratePrediction = useCallback(async (modelName: string) => {
     const testName = `Generate Prediction: ${modelName}`;
     const startTime = performance.now();
-    
+
     try {
       const prediction = await modelService.generatePrediction(modelName);
-      
+
       setModelManagement(prev => ({
         ...prev,
         lastPrediction: prediction
       }));
-      
+
       const durationMs = performance.now() - startTime;
       handleReportResult({
         testName,
@@ -395,7 +395,7 @@ const App: React.FC = () => {
         durationMs,
         details: `Generated prediction with confidence: ${prediction.confidence?.[0] || 'N/A'}`
       });
-      
+
       return prediction;
     } catch (e: any) {
       const durationMs = performance.now() - startTime;
@@ -408,14 +408,14 @@ const App: React.FC = () => {
       throw e;
     }
   }, []);
-  
+
   const handleDeleteModel = useCallback(async (modelName: string) => {
     const testName = `Delete Model: ${modelName}`;
     const startTime = performance.now();
-    
+
     try {
       await modelService.deleteModel(modelName);
-      
+
       // Remove from local state
       setModels(prev => prev.filter(name => name !== modelName));
       setModelManagement(prev => ({
@@ -424,12 +424,12 @@ const App: React.FC = () => {
         selectedModel: prev.selectedModel === modelName ? null : prev.selectedModel,
         modelDetails: prev.selectedModel === modelName ? null : prev.modelDetails
       }));
-      
+
       if (selectedModel === modelName) {
         setSelectedModel(null);
         setJournal(null);
       }
-      
+
       const durationMs = performance.now() - startTime;
       handleReportResult({
         testName,
@@ -464,7 +464,7 @@ const App: React.FC = () => {
         case 'baseline':
         default:
             return (
-                <ResultsPanel 
+                <ResultsPanel
                     isLoading={isLoading}
                     error={error}
                     results={results}
@@ -477,7 +477,7 @@ const App: React.FC = () => {
 
   return (
     <div className="flex h-screen bg-gray-900 text-gray-100 overflow-hidden">
-      <Sidebar 
+      <Sidebar
         onFileChange={handleFileChange}
         selectedFile={file}
         onLaunch={() => file && handleLaunchAnalysis(file)}

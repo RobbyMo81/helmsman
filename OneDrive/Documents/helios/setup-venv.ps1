@@ -37,7 +37,7 @@ Write-Host ""
 if (Test-Path "backend\venv") {
     Write-Host "[INFO] Virtual environment already exists" -ForegroundColor Yellow
     $choice = Read-Host "Do you want to recreate it? (y/N)"
-    
+
     if ($choice -eq "y" -or $choice -eq "Y") {
         Write-Host "[INFO] Removing existing virtual environment..." -ForegroundColor Yellow
         Remove-Item -Recurse -Force "backend\venv"

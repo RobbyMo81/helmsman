@@ -21,7 +21,7 @@ const DisconnectedPanel: React.FC<DisconnectedPanelProps> = ({ onRetry }) => {
         <p className="mt-2 text-gray-400">
           To enable advanced features like Agent Training, you must start the Python server manually.
         </p>
-        
+
         <div className="mt-6 text-left bg-gray-900/70 p-4 rounded-lg border border-gray-600">
             <h4 className="font-semibold text-lg text-yellow-300 mb-3">Resolution Steps</h4>
             <ol className="space-y-4 text-gray-300 list-none">

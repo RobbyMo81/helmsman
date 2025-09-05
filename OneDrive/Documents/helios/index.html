@@ -26,21 +26,21 @@
     <!-- Full Stack Integration Test -->
     <script type="module">
         import { getApiBaseUrl, getApiEndpoint, getCurrentConfig } from './services/config.js';
-        
+
         // Comprehensive integration test function
         window.testFullStack = async function() {
             console.log('🔗 Helios Full Stack Integration Test');
             console.log('====================================');
-            
+
             const config = getCurrentConfig();
             console.log('\n📋 Configuration:');
             console.log('   Frontend URL:', window.location.origin);
             console.log('   Backend URL:', getApiBaseUrl());
             console.log('   Full Config:', config);
-            
+
             let passedTests = 0;
             let totalTests = 0;
-            
+
             // Test 1: Backend Health Check
             console.log('\n🏥 Testing Backend Health...');
             totalTests++;
@@ -57,7 +57,7 @@
             } catch (error) {
                 console.log('   ❌ Backend Health: ERROR -', error.message);
             }
-            
+
             // Test 2: Models API
             console.log('\n🤖 Testing Models API...');
             totalTests++;
@@ -74,7 +74,7 @@
             } catch (error) {
                 console.log('   ❌ Models API: ERROR -', error.message);
             }
-            
+
             // Test 3: CORS Test
             console.log('\n🌐 Testing CORS Configuration...');
             totalTests++;
@@ -94,7 +94,7 @@
             } catch (error) {
                 console.log('   ❌ CORS: ERROR -', error.message);
             }
-            
+
             // Results Summary
             console.log('\n� Test Results Summary');
             console.log('========================');
@@ -102,7 +102,7 @@
             console.log(`✅ Passed: ${passedTests}`);
             console.log(`❌ Failed: ${totalTests - passedTests}`);
             console.log(`Success Rate: ${Math.round((passedTests / totalTests) * 100)}%`);
-            
+
             if (passedTests === totalTests) {
                 console.log('\n🎉 ALL TESTS PASSED! Full stack integration is working perfectly!');
             } else {
@@ -112,10 +112,10 @@
                 console.log('   • CORS configuration issues');
                 console.log('   • Network connectivity problems');
             }
-            
+
             return passedTests === totalTests;
         };
-        
+
         // Simple connectivity test
         window.testConnection = async function() {
             console.log('🔗 Quick Backend Connection Test...');
@@ -137,7 +137,7 @@
                 return false;
             }
         };
-        
+
         // Auto-test on load
         window.addEventListener('load', () => {
             setTimeout(() => {
@@ -148,7 +148,7 @@
                 console.log('   testConnection()  - Quick backend test');
                 console.log('   testFullStack()   - Comprehensive integration test');
                 console.log('');
-                
+
                 // Auto-run quick test
                 console.log('🔄 Running automatic connectivity test...');
                 testConnection();

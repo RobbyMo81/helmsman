@@ -55,7 +55,7 @@ import { updateApiPort, updateApiHost, updateApiProtocol } from './services/conf
 // Change port at runtime
 updateApiPort(5002);
 
-// Change host at runtime  
+// Change host at runtime
 updateApiHost('192.168.1.100');
 
 // Change protocol at runtime

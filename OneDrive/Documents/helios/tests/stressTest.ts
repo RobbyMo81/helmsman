@@ -3,9 +3,9 @@
  * Tests unified configuration, Docker containers, and system resilience
  */
 
-import { 
-    updateApiPort, 
-    updateApiHost, 
+import {
+    updateApiPort,
+    updateApiHost,
     updateApiProtocol,
     updateFullApiConfig,
     getCurrentConfig,
@@ -50,16 +50,16 @@ class SystemStressTester {
      * Run a single test and record results
      */
     private async runTest(
-        testName: string, 
+        testName: string,
         testFunction: () => Promise<{ status: 'PASS' | 'FAIL' | 'WARNING'; details: string; metrics?: any }>
     ): Promise<StressTestResult> {
         const start = Date.now();
         console.log(`🔄 Running: ${testName}`);
-        
+
         try {
             const result = await testFunction();
             const duration = Date.now() - start;
-            
+
             const testResult: StressTestResult = {
                 testName,
                 status: result.status,
@@ -67,12 +67,12 @@ class SystemStressTester {
                 details: result.details,
                 metrics: result.metrics
             };
-            
+
             this.results.push(testResult);
-            
+
             const statusIcon = result.status === 'PASS' ? '✅' : result.status === 'FAIL' ? '❌' : '⚠️';
             console.log(`${statusIcon} ${testName} (${duration}ms): ${result.details}`);
-            
+
             return testResult;
         } catch (error) {
             const duration = Date.now() - start;
@@ -82,10 +82,10 @@ class SystemStressTester {
                 duration,
                 details: `Unexpected error: ${error instanceof Error ? error.message : String(error)}`
             };
-            
+
             this.results.push(testResult);
             console.log(`❌ ${testName} (${duration}ms): FAILED - ${testResult.details}`);
-            
+
             return testResult;
         }
     }
@@ -96,14 +96,14 @@ class SystemStressTester {
     private async testConfigurationStress(): Promise<{ status: 'PASS' | 'FAIL' | 'WARNING'; details: string; metrics?: any }> {
         const iterations = 1000;
         const start = Date.now();
-        
+
         try {
             // Test rapid configuration changes
             for (let i = 0; i < iterations; i++) {
                 updateApiPort(5001 + (i % 100));
                 updateApiHost(i % 2 === 0 ? 'localhost' : '127.0.0.1');
                 updateApiProtocol(i % 3 === 0 ? 'https' : 'http');
-                
+
                 // Verify configuration consistency
                 const config = getCurrentConfig();
                 const expectedUrl = `${config.api.protocol}://${config.api.host}:${config.api.port}`;
@@ -111,17 +111,17 @@ class SystemStressTester {
                     throw new Error(`Configuration inconsistency at iteration ${i}`);
                 }
             }
-            
+
             const duration = Date.now() - start;
             const rps = Math.round((iterations / duration) * 1000);
-            
+
             // Reset to defaults
             updateFullApiConfig({
                 protocol: 'http',
                 host: 'localhost',
                 port: 5001
             });
-            
+
             return {
                 status: 'PASS',
                 details: `Successfully performed ${iterations} configuration changes`,
@@ -152,28 +152,28 @@ class SystemStressTester {
             'api/metrics',
             '/api/models/very-long-model-name-with-special-chars/journal'
         ];
-        
+
         const start = Date.now();
-        
+
         try {
             for (let i = 0; i < iterations; i++) {
                 const endpoint = endpoints[i % endpoints.length];
                 const fullUrl = getApiEndpoint(endpoint);
-                
+
                 // Verify URL format
                 if (!fullUrl.startsWith('http')) {
                     throw new Error(`Invalid URL generated: ${fullUrl}`);
                 }
-                
+
                 // Test with different configurations
                 if (i % 1000 === 0) {
                     updateApiPort(5001 + (i % 10));
                 }
             }
-            
+
             const duration = Date.now() - start;
             const rps = Math.round((iterations / duration) * 1000);
-            
+
             return {
                 status: 'PASS',
                 details: `Generated ${iterations} endpoints successfully`,
@@ -195,14 +195,14 @@ class SystemStressTester {
      */
     private async testConcurrentApiCalls(): Promise<{ status: 'PASS' | 'FAIL' | 'WARNING'; details: string; metrics?: any }> {
         const concurrentRequests = 50;
-        
+
         const start = Date.now();
         let successCount = 0;
         let errorCount = 0;
-        
+
         try {
             const promises: Promise<any>[] = [];
-            
+
             for (let i = 0; i < concurrentRequests; i++) {
                 const promise = (async () => {
                     try {
@@ -228,15 +228,15 @@ class SystemStressTester {
                         // Expected for stress testing - some may fail
                     }
                 })();
-                
+
                 promises.push(promise);
             }
-            
+
             await Promise.allSettled(promises);
-            
+
             const duration = Date.now() - start;
             const errorRate = (errorCount / concurrentRequests) * 100;
-            
+
             return {
                 status: errorRate < 50 ? 'PASS' : errorRate < 80 ? 'WARNING' : 'FAIL',
                 details: `${successCount}/${concurrentRequests} requests succeeded`,
@@ -260,11 +260,11 @@ class SystemStressTester {
     private async testMemoryUsage(): Promise<{ status: 'PASS' | 'FAIL' | 'WARNING'; details: string; metrics?: any }> {
         const iterations = 5000;
         const initialMemory = (performance as any).memory?.usedJSHeapSize || 0;
-        
+
         try {
             // Create memory pressure
             const largeObjects: any[] = [];
-            
+
             for (let i = 0; i < iterations; i++) {
                 // Create configuration objects
                 const config = getCurrentConfig();
@@ -278,11 +278,11 @@ class SystemStressTester {
                     ],
                     timestamp: Date.now()
                 });
-                
+
                 // Periodic cleanup to test garbage collection
                 if (i % 1000 === 0) {
                     largeObjects.splice(0, 500);
-                    
+
                     // Force garbage collection if available (Node.js environment)
                     try {
                         if (typeof window === 'undefined' && (globalThis as any).gc) {
@@ -293,14 +293,14 @@ class SystemStressTester {
                     }
                 }
             }
-            
+
             const finalMemory = (performance as any).memory?.usedJSHeapSize || 0;
             const memoryIncrease = finalMemory - initialMemory;
             const memoryIncreaseKB = Math.round(memoryIncrease / 1024);
-            
+
             // Cleanup
             largeObjects.length = 0;
-            
+
             return {
                 status: memoryIncreaseKB < 50000 ? 'PASS' : memoryIncreaseKB < 100000 ? 'WARNING' : 'FAIL',
                 details: `Memory usage increased by ${memoryIncreaseKB}KB`,
@@ -322,11 +322,11 @@ class SystemStressTester {
     private async testErrorHandling(): Promise<{ status: 'PASS' | 'FAIL' | 'WARNING'; details: string; metrics?: any }> {
         let recoveryCount = 0;
         const totalTests = 10;
-        
+
         try {
             // Test invalid configurations
             const originalConfig = getCurrentConfig();
-            
+
             // Test 1: Invalid port
             try {
                 updateApiPort(-1);
@@ -335,7 +335,7 @@ class SystemStressTester {
             } catch (error) {
                 // Expected
             }
-            
+
             // Test 2: Invalid protocol
             try {
                 updateApiProtocol('ftp' as any);
@@ -343,7 +343,7 @@ class SystemStressTester {
             } catch (error) {
                 // Expected
             }
-            
+
             // Test 3: Invalid host
             try {
                 updateApiHost('');
@@ -352,7 +352,7 @@ class SystemStressTester {
             } catch (error) {
                 // Expected
             }
-            
+
             // Test 4: Network timeouts (simulated)
             try {
                 await Promise.race([
@@ -363,27 +363,27 @@ class SystemStressTester {
             } catch (error) {
                 recoveryCount++; // Recovery successful if we catch the error
             }
-            
+
             // Test 5: Large file processing
             try {
-                const largeCSVContent = 'date,numbers,powerball\n' + 
-                    Array(10000).fill(0).map((_, i) => 
+                const largeCSVContent = 'date,numbers,powerball\n' +
+                    Array(10000).fill(0).map((_, i) =>
                         `2025-01-${String(i % 28 + 1).padStart(2, '0')},1-2-3-4-5,${i % 26 + 1}`
                     ).join('\n');
-                
+
                 const blob = new Blob([largeCSVContent], { type: 'text/csv' });
                 const file = new File([blob], 'large-test.csv', { type: 'text/csv' });
-                
+
                 await runFullAnalysis(file, 'SLOW_BACKTEST');
                 recoveryCount++;
             } catch (error) {
                 recoveryCount++; // Recovery if error is handled gracefully
             }
-            
+
             // Restore original configuration
             updateFullApiConfig(originalConfig.api);
             recoveryCount += 5; // Additional points for successful restoration
-            
+
             return {
                 status: recoveryCount >= 7 ? 'PASS' : recoveryCount >= 5 ? 'WARNING' : 'FAIL',
                 details: `${recoveryCount}/${totalTests} error scenarios handled correctly`,
@@ -405,29 +405,29 @@ class SystemStressTester {
     private async testContainerHealth(): Promise<{ status: 'PASS' | 'FAIL' | 'WARNING'; details: string; metrics?: any }> {
         const healthChecks = 20;
         let healthyCount = 0;
-        
+
         try {
             for (let i = 0; i < healthChecks; i++) {
                 try {
                     // Simulate health check by testing basic functionality
                     const config = getCurrentConfig();
                     const endpoint = getApiEndpoint('/health');
-                    
+
                     // Test configuration consistency
                     if (config.api.baseUrl && endpoint.includes(config.api.host)) {
                         healthyCount++;
                     }
-                    
+
                     // Simulate network delay
                     await new Promise(resolve => setTimeout(resolve, Math.random() * 100));
-                    
+
                 } catch (error) {
                     // Health check failed
                 }
             }
-            
+
             const healthRate = (healthyCount / healthChecks) * 100;
-            
+
             return {
                 status: healthRate >= 95 ? 'PASS' : healthRate >= 80 ? 'WARNING' : 'FAIL',
                 details: `${healthyCount}/${healthChecks} health checks passed (${healthRate.toFixed(1)}%)`,
@@ -448,7 +448,7 @@ class SystemStressTester {
      */
     async runFullStressTest(): Promise<StressTestSuite> {
         console.log('🚀 Starting Helios System Stress Test Suite...\n');
-        
+
         // Run all stress tests
         await this.runTest('Configuration System Stress Test', () => this.testConfigurationStress());
         await this.runTest('API Endpoint Generation Stress Test', () => this.testEndpointGenerationStress());
@@ -456,13 +456,13 @@ class SystemStressTester {
         await this.runTest('Memory and Resource Usage Test', () => this.testMemoryUsage());
         await this.runTest('Error Handling and Recovery Test', () => this.testErrorHandling());
         await this.runTest('Container Health Check Simulation', () => this.testContainerHealth());
-        
+
         // Calculate summary
         const totalDuration = Date.now() - this.startTime;
         const passed = this.results.filter(r => r.status === 'PASS').length;
         const failed = this.results.filter(r => r.status === 'FAIL').length;
         const warnings = this.results.filter(r => r.status === 'WARNING').length;
-        
+
         const summary = {
             totalTests: this.results.length,
             passed,
@@ -470,17 +470,17 @@ class SystemStressTester {
             warnings,
             totalDuration
         };
-        
+
         const suite: StressTestSuite = {
             suiteName: 'Helios System Stress Test Suite',
             results: this.results,
             summary
         };
-        
+
         this.printSummary(suite);
         return suite;
     }
-    
+
     /**
      * Print test summary
      */
@@ -494,7 +494,7 @@ class SystemStressTester {
         console.log(`❌ Failed: ${suite.summary.failed}`);
         console.log(`⏱️  Total Duration: ${suite.summary.totalDuration}ms`);
         console.log(`📈 Success Rate: ${((suite.summary.passed / suite.summary.totalTests) * 100).toFixed(1)}%`);
-        
+
         if (suite.summary.failed === 0) {
             console.log('\n🎉 ALL STRESS TESTS PASSED! System is robust and ready for production.');
         } else if (suite.summary.failed <= suite.summary.totalTests * 0.2) {
@@ -502,9 +502,9 @@ class SystemStressTester {
         } else {
             console.log('\n🚨 MULTIPLE FAILURES DETECTED! System may need attention before production deployment.');
         }
-        
+
         console.log('='.repeat(60));
-        
+
         // Detailed results
         console.log('\n📋 DETAILED RESULTS:');
         suite.results.forEach(result => {

@@ -49,12 +49,12 @@ echo ""
 if [ -d "backend/venv" ]; then
     print_info "Virtual environment already exists"
     read -p "Do you want to recreate it? (y/N): " choice
-    case "$choice" in 
-        y|Y ) 
+    case "$choice" in
+        y|Y )
             print_info "Removing existing virtual environment..."
             rm -rf backend/venv
             ;;
-        * ) 
+        * )
             print_info "Using existing virtual environment"
             ;;
     esac
@@ -64,7 +64,7 @@ fi
 if [ ! -d "backend/venv" ]; then
     print_info "Creating Python virtual environment..."
     $PYTHON_CMD -m venv backend/venv
-    
+
     if [ $? -ne 0 ]; then
         print_error "Failed to create virtual environment"
         echo "Make sure you have python3-venv installed:"
@@ -74,7 +74,7 @@ if [ ! -d "backend/venv" ]; then
         echo ""
         exit 1
     fi
-    
+
     print_success "Virtual environment created successfully"
 fi
 
@@ -103,14 +103,14 @@ fi
 if [ -f "backend/requirements.txt" ]; then
     print_info "Installing Python dependencies..."
     pip install -r backend/requirements.txt
-    
+
     if [ $? -ne 0 ]; then
         print_error "Failed to install some dependencies"
         echo "Check the output above for details"
         echo ""
         exit 1
     fi
-    
+
     print_success "Dependencies installed successfully"
 else
     print_warning "No requirements.txt found, skipping dependency installation"

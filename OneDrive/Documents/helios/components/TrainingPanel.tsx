@@ -26,18 +26,18 @@ export const TrainingPanel: React.FC<TrainingPanelProps> = ({ onTrainingComplete
         setIsLoading(true);
         setMessage('');
         setError('');
-        
+
         const startTime = performance.now();
         const testName = `Agent Training: ${modelName}`;
 
         try {
             const result = await modelService.startTraining({ model_name: modelName, epochs, learning_rate: learningRate });
             const durationMs = performance.now() - startTime;
-            
+
             setCurrentJobId(result.job_id);
             setIsTraining(true);
             setMessage(result.message);
-            
+
             reportResult({ testName, status: 'PASS', durationMs, details: result.message });
         } catch (err: any) {
             const durationMs = performance.now() - startTime;
@@ -80,10 +80,10 @@ export const TrainingPanel: React.FC<TrainingPanelProps> = ({ onTrainingComplete
                         />
                         <div>
                             <label htmlFor="epochs" className="block text-sm font-medium text-gray-300">Epochs</label>
-                            <input 
+                            <input
                                 id="epochs"
-                                type="number" 
-                                value={epochs} 
+                                type="number"
+                                value={epochs}
                                 onChange={(e) => setEpochs(Number(e.target.value))}
                                 className="mt-1 block w-full bg-gray-700 border border-gray-600 rounded-md shadow-sm py-2 px-3 text-white focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
                                 required
@@ -91,19 +91,19 @@ export const TrainingPanel: React.FC<TrainingPanelProps> = ({ onTrainingComplete
                         </div>
                         <div>
                             <label htmlFor="learningRate" className="block text-sm font-medium text-gray-300">Learning Rate</label>
-                            <input 
+                            <input
                                 id="learningRate"
-                                type="number" 
-                                step="0.0001" 
-                                value={learningRate} 
+                                type="number"
+                                step="0.0001"
+                                value={learningRate}
                                 onChange={(e) => setLearningRate(Number(e.target.value))}
                                 className="mt-1 block w-full bg-gray-700 border border-gray-600 rounded-md shadow-sm py-2 px-3 text-white focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
                                 required
                             />
                         </div>
                     </div>
-                    <button 
-                        type="submit" 
+                    <button
+                        type="submit"
                         disabled={isLoading || !modelName}
                         className="w-full flex items-center justify-center bg-green-600 hover:bg-green-500 disabled:bg-gray-600 disabled:cursor-not-allowed text-white font-bold py-2 px-4 rounded-lg transition-colors"
                     >

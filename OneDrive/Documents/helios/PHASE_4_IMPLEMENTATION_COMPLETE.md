@@ -31,7 +31,7 @@
   - Extended ViewType to include 'cross_model_analytics'
   - All analytics data structures properly typed
 
-- ✅ **Navigation Integration** 
+- ✅ **Navigation Integration**
   - Updated App.tsx with new view routing
   - Added Sidebar button for Cross-Model Analytics
   - Full integration with existing view system
@@ -52,7 +52,7 @@
 
 ### **3. Ensemble Recommendations**
 - **Strategy 1**: Best performers with balanced weights
-- **Strategy 2**: Diverse models for robust predictions  
+- **Strategy 2**: Diverse models for robust predictions
 - **Strategy 3**: Stability-focused for consistent performance
 - **Risk Assessment**: Low/Medium/High risk classifications
 - **Weight Optimization**: Inverse loss-based weighting

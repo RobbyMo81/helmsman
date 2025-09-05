@@ -18,7 +18,7 @@ export interface AnalysisPayload {
  * 1. Parsing and validating the user-provided CSV file.
  * 2. Running the backtest simulation with a random agent.
  * 3. Calling the Gemini API to get a statistical analysis of the results.
- * 
+ *
  * It's designed to be robust, with clear error messages for each step.
  *
  * @param file The CSV file to analyze, typically from a file input.

@@ -21,7 +21,7 @@ export const parseCSV = (file: File): Promise<HistoricalDraw[]> => {
         }
 
         // Filter out any rows that might be null or have missing essential data
-        const validData = results.data.filter((row: any) => 
+        const validData = results.data.filter((row: any) =>
             REQUIRED_COLUMNS.every(col => row[col] !== null && row[col] !== undefined)
         );
 
@@ -46,7 +46,7 @@ export const generateRandomTicket = (): Ticket => {
 
 export const evaluateTicket = (ticket: Ticket, historicalDraw: HistoricalDraw): PrizeTier => {
     const [ticketWb, ticketPb] = ticket;
-    
+
     const historicalWb = new Set([
         historicalDraw.wb1,
         historicalDraw.wb2,
@@ -67,7 +67,7 @@ export const evaluateTicket = (ticket: Ticket, historicalDraw: HistoricalDraw): 
     if (matchedWbCount === 2 && isPbMatch) return "$7 (2+1)";
     if (matchedWbCount === 1 && isPbMatch) return "$4 (1+1)";
     if (matchedWbCount === 0 && isPbMatch) return "$4 (0+1)";
-    
+
     return "No Win";
 };
 

@@ -1,0 +1,177 @@
+{
+  "$id": "https://helmsman.local/schemas/supervision_report.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Helmsman Supervision Report",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["generated_at", "health", "procs", "logs"],
+  "properties": {
+    "schema_version": {
+      "description": "Semantic version of the report schema that the emitter targets.",
+      "type": "string",
+      "default": "0.2.0"
+    },
+    "generated_at": {
+      "description": "Unix epoch seconds when the report was generated.",
+      "type": "number",
+      "minimum": 0
+    },
+    "health": {
+      "$ref": "#/$defs/Health"
+    },
+    "procs": {
+      "description": "Currently supervised processes at report generation time.",
+      "type": "array",
+      "items": { "$ref": "#/$defs/ProcInfo" }
+    },
+    "logs": {
+      "$ref": "#/$defs/Logs"
+    },
+    "notes": {
+      "description": "Optional emitter notes.",
+      "type": "array",
+      "items": { "type": "string" }
+    }
+  },
+  "$defs": {
+    "Health": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "timestamp",
+        "python",
+        "has_venv",
+        "torch_ok",
+        "cuda_available",
+        "requirements_ok",
+        "ports_free",
+        "notes"
+      ],
+      "properties": {
+        "timestamp": {
+          "description": "Unix epoch seconds when the health snapshot was taken.",
+          "type": "number",
+          "minimum": 0
+        },
+        "python": {
+          "description": "Python version string (e.g., '3.11.9').",
+          "type": "string",
+          "pattern": "^[0-9]+\\.[0-9]+(\\.[0-9]+)?"
+        },
+        "has_venv": { "type": "boolean" },
+        "torch_ok": { "type": "boolean" },
+        "cuda_available": {
+          "description": "True if torch.cuda.is_available() succeeded; null if torch not imported.",
+          "type": ["boolean", "null"]
+        },
+        "requirements_ok": {
+          "description": "True if requirements file exists (and typically installed); null if not checked.",
+          "type": ["boolean", "null"]
+        },
+        "ports_free": {
+          "description": "Map of named endpoints to availability (true if free).",
+          "type": "object",
+          "additionalProperties": {
+            "type": "boolean"
+          }
+        },
+        "notes": {
+          "type": "array",
+          "items": { "type": "string" }
+        }
+      }
+    },
+    "ProcInfo": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["name", "pid", "cmd", "log_file", "start_time"],
+      "properties": {
+        "name": {
+          "description": "Logical name of the process (e.g., 'streamlit', 'torch').",
+          "type": "string",
+          "minLength": 1
+        },
+        "pid": {
+          "description": "Operating system process ID.",
+          "type": "integer",
+          "minimum": 1
+        },
+        "cmd": {
+          "description": "Launched command argv vector.",
+          "type": "array",
+          "items": { "type": "string" },
+          "minItems": 1
+        },
+        "log_file": {
+          "description": "Absolute or relative path to the captured log file.",
+          "type": "string",
+          "minLength": 1
+        },
+        "start_time": {
+          "description": "Unix epoch seconds when the process was launched.",
+          "type": "number",
+          "minimum": 0
+        }
+      }
+    },
+    "Logs": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["streamlit_tail", "torch_tail", "pytest_tail"],
+      "properties": {
+        "streamlit_tail": {
+          "description": "Last N lines of the Streamlit log.",
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "torch_tail": {
+          "description": "Last N lines of the Torch analyzer log.",
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "pytest_tail": {
+          "description": "Last N lines of the pytest log.",
+          "type": "array",
+          "items": { "type": "string" }
+        }
+      }
+    }
+  },
+  "examples": [
+    {
+      "schema_version": "0.2.0",
+      "generated_at": 1767326400,
+      "health": {
+        "timestamp": 1767326399,
+        "python": "3.11.9",
+        "has_venv": true,
+        "torch_ok": true,
+        "cuda_available": true,
+        "requirements_ok": true,
+        "ports_free": { "streamlit": true },
+        "notes": []
+      },
+      "procs": [
+        {
+          "name": "streamlit",
+          "pid": 12345,
+          "cmd": [
+            "venv/bin/python",
+            "-m",
+            "streamlit",
+            "run",
+            "apps/data_analyzer_streamlit/app.py"
+          ],
+          "log_file": "artifacts/logs/streamlit.log",
+          "start_time": 1767326300
+        }
+      ],
+      "logs": {
+        "streamlit_tail": ["Running on http://127.0.0.1:8501"],
+        "torch_tail": [],
+        "pytest_tail": ["collected 12 items", "12 passed"]
+      },
+      "notes": ["all systems nominal"]
+    }
+  ]
+}

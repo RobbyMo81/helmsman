@@ -48,7 +48,7 @@ npm run docker:down
    ```javascript
    // Quick connectivity test
    testConnection()
-   
+
    // Comprehensive full stack test
    testFullStack()
    ```
@@ -77,7 +77,7 @@ The system uses unified configuration in `services/config.ts`:
 const config = {
   api: {
     protocol: 'http',
-    host: 'localhost', 
+    host: 'localhost',
     port: 5001,
     baseUrl: 'http://localhost:5001'
   },
@@ -92,7 +92,7 @@ const config = {
 ### Frontend (React/TypeScript/Vite)
 - **Development**: http://localhost:5173 or 5174
 - **Production**: http://localhost (via Docker)
-- **Features**: 
+- **Features**:
   - Unified configuration system
   - Real-time backend connectivity testing
   - Stress test UI components

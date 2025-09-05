@@ -392,18 +392,18 @@ class Trainer:
         """The main training loop."""
         loss_history = []
         print(f"Starting training for {self.model_name}...")
-        
+
         for epoch in range(self.epochs):
             # --- This is a placeholder for the real training loop ---
             # You would iterate through your data, create input tensors and labels,
             # calculate loss, and perform backpropagation.
             # For this seed code, we simulate the process.
             # TODO: Implement the actual training logic
-            
+
             # Simulate a decreasing loss
             simulated_loss = 1.0 / (epoch + 1) + random.uniform(-0.05, 0.05)
             loss_history.append(simulated_loss)
-            
+
             print(f"Epoch {epoch+1}/{self.epochs}, Loss: {simulated_loss:.4f}")
             time.sleep(0.1) # Simulate training time
 
@@ -428,7 +428,7 @@ class Trainer:
         }
         with open(journal_path, 'w') as f:
             json.dump(journal_data, f, indent=4)
-        
+
         print(f"Artifacts saved for model '{self.model_name}'.")
 IGNORE_WHEN_COPYING_START
 content_copy

@@ -10,15 +10,15 @@ import('./services/config.js').then(config => {
     console.log('Frontend URL:', window.location.origin);
     console.log('Backend URL:', config.getApiBaseUrl());
     console.log('Full Config:', config.getCurrentConfig());
-    
+
     // Test 2: Simple fetch test
     console.log('\n🔗 Testing Backend Connectivity...');
-    
+
     fetch(config.getApiEndpoint('/health'))
         .then(response => {
             console.log('Response Status:', response.status);
             console.log('Response OK:', response.ok);
-            
+
             if (response.ok) {
                 return response.json();
             } else {
@@ -28,7 +28,7 @@ import('./services/config.js').then(config => {
         .then(data => {
             console.log('\n✅ SUCCESS: Backend is responding!');
             console.log('📊 Health Data:', data);
-            
+
             // Test additional endpoints
             return fetch(config.getApiEndpoint('/api/models'));
         })

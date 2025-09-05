@@ -24,9 +24,9 @@ export interface HistoricalDraw {
 
 export type BacktestResults = Record<PrizeTier, number>;
 
-export type StressTestType = 
-  | 'SLOW_BACKTEST' 
-  | 'AI_FAILURE' 
+export type StressTestType =
+  | 'SLOW_BACKTEST'
+  | 'AI_FAILURE'
   | 'AI_EMPTY_RESPONSE'
   | 'CSV_PARSE_ERROR'
   | 'CSV_EMPTY_FILE';

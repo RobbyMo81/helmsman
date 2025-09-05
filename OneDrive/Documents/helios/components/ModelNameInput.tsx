@@ -134,11 +134,11 @@ export const ModelNameInput: React.FC<ModelNameInputProps> = ({
                         placeholder={placeholder}
                         required={required}
                         className={`block w-full bg-gray-700 border rounded-md shadow-sm py-2 px-3 text-white focus:outline-none focus:ring-2 focus:border-transparent sm:text-sm ${
-                            isDuplicate 
-                                ? 'border-red-500 focus:ring-red-500' 
-                                : validationMessage 
+                            isDuplicate
+                                ? 'border-red-500 focus:ring-red-500'
+                                : validationMessage
                                     ? 'border-yellow-500 focus:ring-yellow-500'
-                                    : isValid 
+                                    : isValid
                                         ? 'border-green-500 focus:ring-green-500'
                                         : 'border-gray-600 focus:ring-blue-500'
                         }`}

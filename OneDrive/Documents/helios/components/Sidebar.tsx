@@ -42,7 +42,7 @@ const DevButton: React.FC<{onClick: () => void, children: React.ReactNode}> = ({
 );
 
 
-const Sidebar: React.FC<SidebarProps> = ({ 
+const Sidebar: React.FC<SidebarProps> = ({
     onFileChange, selectedFile, onLaunch, isLoading, onStressTest,
     models, selectedModel, onSelectModel, onTrainingComplete, onShowBaseline, onShowTrainingDashboard, onShowMetacognitive, onShowCrossModelAnalytics,
     onLoadModel, onGetInfo, onPredict, onDeleteModel,
@@ -107,7 +107,7 @@ const Sidebar: React.FC<SidebarProps> = ({
                                 ))}
                             </select>
                         </div>
-                        
+
                         {/* Enhanced Model Management Controls */}
                         {selectedModel && (
                             <div className="bg-gray-700/50 p-3 rounded-lg space-y-2">
@@ -144,7 +144,7 @@ const Sidebar: React.FC<SidebarProps> = ({
                                 </div>
                             </div>
                         )}
-                        
+
                         {/* Training Dashboard Button */}
                         <div className="border-t border-gray-600/50 pt-4">
                             <button
@@ -166,9 +166,9 @@ const Sidebar: React.FC<SidebarProps> = ({
                                 📈 Cross-Model Analytics
                             </button>
                         </div>
-                        
-                        <TrainingPanel 
-                            onTrainingComplete={onTrainingComplete} 
+
+                        <TrainingPanel
+                            onTrainingComplete={onTrainingComplete}
                             reportResult={reportResult}
                             availableModels={models}
                         />

@@ -3,6 +3,7 @@ import time
 from typing import List
 from .runtime import PROCS
 
+
 def stop(name: str):
     pinfo = PROCS.get(name)
     if not pinfo:
@@ -22,6 +23,7 @@ def stop(name: str):
         # fallback: best-effort using os.kill by pid (not ideal)
         try:
             import os, signal
+
             os.kill(pinfo.pid, signal.SIGTERM)
         except Exception:
             pass
@@ -42,7 +44,8 @@ def stop(name: str):
 
 
 def stop_all() -> List[str]:
-    names = list(PROCS.keys()); msgs: List[str] = []
+    names = list(PROCS.keys())
+    msgs: List[str] = []
     for n in names:
         msgs.append(stop(n))
     return msgs

@@ -181,10 +181,10 @@ const MetacognitiveDashboard: React.FC<MetacognitiveDashboardProps> = ({ modelNa
 
   useEffect(() => {
     fetchMetacognitiveData();
-    
+
     // Set up polling for real-time updates
     const interval = setInterval(fetchMetacognitiveData, 10000); // Every 10 seconds
-    
+
     return () => clearInterval(interval);
   }, [modelName]);
 
@@ -316,16 +316,16 @@ const MetacognitiveDashboard: React.FC<MetacognitiveDashboardProps> = ({ modelNa
                     <Assessment sx={{ mr: 1, verticalAlign: 'middle' }} />
                     Current Self-Assessment
                   </Typography>
-                  
+
                   <Box sx={{ mb: 2 }}>
                     <Typography variant="body2" color="text.secondary">
                       Confidence Score
                     </Typography>
-                    <LinearProgress 
-                      variant="determinate" 
+                    <LinearProgress
+                      variant="determinate"
                       value={assessment.confidence_score * 100}
-                      sx={{ 
-                        height: 8, 
+                      sx={{
+                        height: 8,
                         borderRadius: 4,
                         backgroundColor: '#e0e0e0',
                         '& .MuiLinearProgress-bar': {
@@ -342,8 +342,8 @@ const MetacognitiveDashboard: React.FC<MetacognitiveDashboardProps> = ({ modelNa
                     <Typography variant="body2" color="text.secondary">
                       Predicted Performance
                     </Typography>
-                    <LinearProgress 
-                      variant="determinate" 
+                    <LinearProgress
+                      variant="determinate"
                       value={assessment.predicted_performance * 100}
                       sx={{ height: 8, borderRadius: 4 }}
                     />
@@ -356,8 +356,8 @@ const MetacognitiveDashboard: React.FC<MetacognitiveDashboardProps> = ({ modelNa
                     <Typography variant="body2" color="text.secondary">
                       Uncertainty Level
                     </Typography>
-                    <LinearProgress 
-                      variant="determinate" 
+                    <LinearProgress
+                      variant="determinate"
                       value={assessment.uncertainty_estimate * 100}
                       color="warning"
                       sx={{ height: 8, borderRadius: 4 }}
@@ -371,9 +371,9 @@ const MetacognitiveDashboard: React.FC<MetacognitiveDashboardProps> = ({ modelNa
                     <Typography variant="body2" color="text.secondary" gutterBottom>
                       Recommended Strategy
                     </Typography>
-                    <Chip 
+                    <Chip
                       label={assessment.recommended_strategy}
-                      sx={{ 
+                      sx={{
                         backgroundColor: getStrategyColor(assessment.recommended_strategy),
                         color: 'white',
                         fontWeight: 'bold'
@@ -526,7 +526,7 @@ const MetacognitiveDashboard: React.FC<MetacognitiveDashboardProps> = ({ modelNa
                   <Box>
                     <Box sx={{ display: 'flex', justifyContent: 'space-between', mb: 1 }}>
                       <Typography variant="body2">Autonomous Mode:</Typography>
-                      <Chip 
+                      <Chip
                         label={systemStatus.autonomous_mode ? 'Active' : 'Inactive'}
                         color={systemStatus.autonomous_mode ? 'success' : 'default'}
                         size="small"
@@ -576,7 +576,7 @@ const MetacognitiveDashboard: React.FC<MetacognitiveDashboardProps> = ({ modelNa
                             <Chip
                               label={`P${decision.priority}`}
                               size="small"
-                              sx={{ 
+                              sx={{
                                 backgroundColor: getPriorityColor(decision.priority),
                                 color: 'white'
                               }}
@@ -593,7 +593,7 @@ const MetacognitiveDashboard: React.FC<MetacognitiveDashboardProps> = ({ modelNa
                             <Chip
                               label={decision.status}
                               size="small"
-                              color={decision.status === 'completed' ? 'success' : 
+                              color={decision.status === 'completed' ? 'success' :
                                      decision.status === 'failed' ? 'error' : 'default'}
                             />
                           </TableCell>
@@ -635,7 +635,7 @@ const MetacognitiveDashboard: React.FC<MetacognitiveDashboardProps> = ({ modelNa
                           <Chip
                             label={`P${goal.priority}`}
                             size="small"
-                            sx={{ 
+                            sx={{
                               backgroundColor: getPriorityColor(goal.priority),
                               color: 'white'
                             }}
@@ -645,8 +645,8 @@ const MetacognitiveDashboard: React.FC<MetacognitiveDashboardProps> = ({ modelNa
                           <Typography variant="body2" color="text.secondary">
                             Progress: {(goal.progress * 100).toFixed(1)}%
                           </Typography>
-                          <LinearProgress 
-                            variant="determinate" 
+                          <LinearProgress
+                            variant="determinate"
                             value={goal.progress * 100}
                             sx={{ height: 6, borderRadius: 3, mt: 0.5 }}
                           />
@@ -687,8 +687,8 @@ const MetacognitiveDashboard: React.FC<MetacognitiveDashboardProps> = ({ modelNa
                       <Typography variant="body2" color="text.secondary">
                         Overall Progress
                       </Typography>
-                      <LinearProgress 
-                        variant="determinate" 
+                      <LinearProgress
+                        variant="determinate"
                         value={systemStatus.goal_status.total_progress * 100}
                         sx={{ height: 8, borderRadius: 4, mt: 1 }}
                       />

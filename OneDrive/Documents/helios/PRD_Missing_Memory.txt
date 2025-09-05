@@ -41,7 +41,7 @@ The current v0 (MVP) architecture is stateless: each run is isolated. This preve
    - `loss_history` (array of losses per epoch)
 
 ### Feature 2: Model Management System (New)
-**Description:** Organize and access agent "brains." 
+**Description:** Organize and access agent "brains."
 
 **Requirements:**
 1. Scan `./models/` directory on startup to discover `.pth` files.

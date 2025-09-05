@@ -146,20 +146,20 @@ show_help() {
 # Function to check health
 check_health() {
     print_status "Checking service health..."
-    
+
     # Check if services are running
     if ! docker-compose ps | grep -q "Up"; then
         print_error "No services are running"
         return 1
     fi
-    
+
     # Check frontend health
     if curl -s http://localhost/ > /dev/null; then
         print_success "Frontend is healthy"
     else
         print_error "Frontend is not responding"
     fi
-    
+
     # Check backend health
     if curl -s http://localhost:5001/health > /dev/null; then
         print_success "Backend is healthy"
@@ -173,7 +173,7 @@ main() {
     # Check prerequisites
     check_docker
     check_docker_compose
-    
+
     # Parse command
     case "${1:-help}" in
         "start-prod")

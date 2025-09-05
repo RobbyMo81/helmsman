@@ -68,7 +68,7 @@
 ## 🎯 **NEW FEATURES IMPLEMENTED**
 
 ### **High-Priority Features**
-1. ✅ **Real-time Training Progress** 
+1. ✅ **Real-time Training Progress**
    - Live progress bars and epoch counters
    - Loss curve visualization with recharts
    - Training session controls (start/stop)
@@ -104,7 +104,7 @@
 
 ### **New Components Created**
 - ✅ `components/TrainingProgress.tsx` - Real-time training visualization
-- ✅ `components/TrainingDashboard.tsx` - Training management dashboard  
+- ✅ `components/TrainingDashboard.tsx` - Training management dashboard
 - ✅ `components/ModelNameInput.tsx` - Enhanced model naming
 
 ### **Enhanced Components**

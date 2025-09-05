@@ -26,7 +26,7 @@ export const analyzeResultsWithGemini = async (
     console.error("Gemini API key is not configured.");
     throw new Error("AI analysis is not available: The API key has not been configured by the developer.");
   }
-  
+
   const ai = new GoogleGenAI({ apiKey: API_KEY });
   const model = "gemini-2.5-flash";
 
@@ -56,7 +56,7 @@ Conclude by affirming that this simulation successfully establishes a random per
       model: model,
       contents: prompt,
     });
-    
+
     const text = response.text;
     if (!text || text.trim() === '') {
         throw new Error("The AI model returned an empty or invalid response.");

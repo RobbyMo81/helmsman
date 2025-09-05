@@ -44,7 +44,7 @@ class StressTestRunner {
     async runTest(name, testFn) {
         this.totalTests++;
         this.log('info', `Running: ${name}`);
-        
+
         try {
             const result = await testFn();
             if (result === 'warning') {
@@ -70,7 +70,7 @@ class StressTestRunner {
         // Pre-flight checks
         console.log('🔧 Pre-flight Checks');
         console.log('====================');
-        
+
         await this.runTest('Node.js Available', async () => {
             const result = await this.runCommand('node --version');
             return result.success;
@@ -126,15 +126,15 @@ class StressTestRunner {
                 const configContent = fs.readFileSync('services/config.ts', 'utf8');
                 const requiredExports = ['appConfig'];
                 const requiredFunctions = ['getApiBaseUrl', 'getApiPort', 'getApiEndpoint'];
-                
+
                 for (const exp of requiredExports) {
                     if (!configContent.includes(exp)) return false;
                 }
-                
+
                 for (const func of requiredFunctions) {
                     if (!configContent.includes(func)) return false;
                 }
-                
+
                 return true;
             } catch (error) {
                 return false;

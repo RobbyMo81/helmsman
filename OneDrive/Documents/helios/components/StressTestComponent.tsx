@@ -40,12 +40,12 @@ const StressTestComponent: React.FC<StressTestComponentProps> = ({ onTestComplet
             }, 1000);
 
             const testResults = await runSystemStressTest();
-            
+
             clearInterval(progressInterval);
             setProgress(100);
             setCurrentTest('Complete');
             setResults(testResults);
-            
+
             if (onTestComplete) {
                 onTestComplete(testResults);
             }
@@ -77,9 +77,9 @@ const StressTestComponent: React.FC<StressTestComponentProps> = ({ onTestComplet
 
     const getOverallStatus = () => {
         if (!results) return null;
-        
+
         const passRate = (results.summary.passed / results.summary.totalTests) * 100;
-        
+
         if (passRate === 100) return { text: 'EXCELLENT', color: 'text-green-600', bg: 'bg-green-50', border: 'border-green-200' };
         if (passRate >= 80) return { text: 'GOOD', color: 'text-green-600', bg: 'bg-green-50', border: 'border-green-200' };
         if (passRate >= 60) return { text: 'ACCEPTABLE', color: 'text-yellow-600', bg: 'bg-yellow-50', border: 'border-yellow-200' };
@@ -109,7 +109,7 @@ const StressTestComponent: React.FC<StressTestComponentProps> = ({ onTestComplet
                 >
                     {isRunning ? '🔄 Running Tests...' : '▶️ Start Stress Test'}
                 </button>
-                
+
                 {isRunning && (
                     <div className="mt-4">
                         <div className="flex justify-between text-sm text-gray-600 mb-1">
@@ -117,7 +117,7 @@ const StressTestComponent: React.FC<StressTestComponentProps> = ({ onTestComplet
                             <span>{Math.round(progress)}%</span>
                         </div>
                         <div className="w-full bg-gray-200 rounded-full h-2">
-                            <div 
+                            <div
                                 className="bg-blue-600 h-2 rounded-full transition-all duration-300"
                                 style={{ width: `${progress}%` }}
                             />
@@ -139,7 +139,7 @@ const StressTestComponent: React.FC<StressTestComponentProps> = ({ onTestComplet
                                 Duration: {(results.summary.totalDuration / 1000).toFixed(1)}s
                             </div>
                         </div>
-                        
+
                         <div className="grid grid-cols-4 gap-4 text-center">
                             <div className="bg-white p-3 rounded">
                                 <div className="text-xl font-bold text-gray-900">{results.summary.totalTests}</div>
@@ -158,7 +158,7 @@ const StressTestComponent: React.FC<StressTestComponentProps> = ({ onTestComplet
                                 <div className="text-sm text-gray-600">Failed</div>
                             </div>
                         </div>
-                        
+
                         <div className="mt-3 text-center">
                             <div className="text-sm text-gray-600">
                                 Success Rate: {((results.summary.passed / results.summary.totalTests) * 100).toFixed(1)}%
@@ -185,7 +185,7 @@ const StressTestComponent: React.FC<StressTestComponentProps> = ({ onTestComplet
                                             </span>
                                         </div>
                                         <p className="text-sm text-gray-600 mb-2">{result.details}</p>
-                                        
+
                                         {result.metrics && (
                                             <div className="flex gap-4 text-xs text-gray-500">
                                                 {Object.entries(result.metrics).map(([key, value]) => (

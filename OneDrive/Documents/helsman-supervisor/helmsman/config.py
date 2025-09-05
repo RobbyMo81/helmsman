@@ -4,7 +4,7 @@ from dataclasses import dataclass, field, asdict
 from typing import Dict, Any, Optional
 
 HOME = pathlib.Path.home()
-XDG = pathlib.Path(os.environ.get("XDG_CONFIG_HOME", HOME/".config"))
+XDG = pathlib.Path(os.environ.get("XDG_CONFIG_HOME", HOME / ".config"))
 APP = "helmsman"
 
 DEFAULT_CFG: Dict[str, Any] = {
@@ -22,6 +22,7 @@ DEFAULT_CFG: Dict[str, Any] = {
     },
     "pytest": {"enabled": True, "args": ["-q"]},
 }
+
 
 @dataclass
 class Config:
@@ -54,7 +55,11 @@ class Config:
         if explicit:
             candidates.append(pathlib.Path(explicit))
         cwd = pathlib.Path.cwd()
-        candidates += [cwd/".helmsman.yaml", cwd/"supervisor.yaml", XDG/APP/"config.yaml"]
+        candidates += [
+            cwd / ".helmsman.yaml",
+            cwd / "supervisor.yaml",
+            XDG / APP / "config.yaml",
+        ]
         for c in candidates:
             if c and c.exists():
                 with open(c, "r", encoding="utf-8") as f:
@@ -103,7 +108,7 @@ class Config:
         return self.data.get(key, default)
 
     def write_default(self, path: Optional[pathlib.Path] = None):
-        tgt = path or (self.root/".helmsman.yaml")
+        tgt = path or (self.root / ".helmsman.yaml")
         tgt.parent.mkdir(parents=True, exist_ok=True)
         with open(tgt, "w", encoding="utf-8") as f:
             yaml.safe_dump(self.data, f, sort_keys=False)

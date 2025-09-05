@@ -128,7 +128,7 @@ docker-compose up -d --scale backend=3 --scale frontend=1
    # Check what's using the ports
    netstat -an | grep :80
    netstat -an | grep :5001
-   
+
    # Change ports in docker-compose.yml if needed
    ```
 
@@ -217,7 +217,7 @@ The backend exposes the following endpoints:
    ```bash
    # Start development environment
    docker-compose --profile dev up -d
-   
+
    # Code changes are reflected immediately (hot-reload)
    # Edit files in your local directory
    ```

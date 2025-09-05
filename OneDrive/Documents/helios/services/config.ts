@@ -44,13 +44,13 @@ const constructBaseUrl = (config: ApiConfig): string => {
  */
 const loadConfig = (): AppConfig => {
     const config = { ...DEFAULT_CONFIG };
-    
+
     // Override with environment variables if available (Vite environment variables)
     // To use this, create a .env file with variables like:
     // VITE_API_PORT=5001
     // VITE_API_HOST=localhost
     // VITE_API_PROTOCOL=http
-    
+
     try {
         // Enable environment variable support for Docker deployments
         // These variables are injected at build time by Vite
@@ -58,20 +58,20 @@ const loadConfig = (): AppConfig => {
         const envApiHost = (globalThis as any).VITE_API_HOST;
         const envApiPort = (globalThis as any).VITE_API_PORT;
         const envFrontendPort = (globalThis as any).VITE_FRONTEND_PORT;
-        
+
         if (envApiProtocol) config.api.protocol = envApiProtocol;
         if (envApiHost) config.api.host = envApiHost;
         if (envApiPort) config.api.port = Number(envApiPort);
         if (envFrontendPort) config.development.frontendPort = Number(envFrontendPort);
-        
+
     } catch (error) {
         // Fallback to defaults if environment variables aren't available
         console.warn('Using default configuration - environment variables not available');
     }
-    
+
     // Construct the base URL
     config.api.baseUrl = constructBaseUrl(config.api);
-    
+
     return config;
 };
 

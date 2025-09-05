@@ -1,0 +1,40 @@
+{
+  "commands": {
+    "init-config": { "args": [], "output": [".helmsman.yaml file"] },
+    "bootstrap": {
+      "args": ["--config PATH"],
+      "output": ["venv created", "deps installed"]
+    },
+    "health": {
+      "args": ["--config PATH"],
+      "output": ["artifacts/reports/health.json"]
+    },
+    "test": {
+      "args": ["--config PATH"],
+      "output": ["pytest exit code", "artifacts/logs/pytest.log"]
+    },
+    "run:streamlit": {
+      "args": ["--config PATH"],
+      "output": ["PID", "artifacts/logs/streamlit.log"]
+    },
+    "run:torch": {
+      "args": ["--infile PATH", "--device cpu|cuda", "--max-batch N"],
+      "output": ["PID", "artifacts/logs/torch.log"]
+    },
+    "status": { "args": [], "output": ["running processes list"] },
+    "stop": { "args": ["name|all"], "output": ["stopped processes"] },
+    "report": {
+      "args": [],
+      "output": ["supervision_report_*.json", "supervision_report.md"]
+    },
+    "watch": { "args": [], "output": ["TUI live screen"] },
+    "register": { "args": ["NAME PATH"], "output": ["registry.yaml updated"] },
+    "list": { "args": [], "output": ["registry entries"] },
+    "open": { "args": ["NAME"], "output": ["PATH of project"] }
+  },
+  "artifacts": {
+    "logs": "artifacts/logs/*.log",
+    "reports": "artifacts/reports/*.json",
+    "registry": "~/.config/helmsman/registry.yaml"
+  }
+}

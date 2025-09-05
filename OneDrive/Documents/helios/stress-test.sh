@@ -48,14 +48,14 @@ run_test() {
     local test_name="$1"
     local test_command="$2"
     local expected_output="$3"
-    
+
     TOTAL_TESTS=$((TOTAL_TESTS + 1))
     print_status "Running: $test_name"
-    
+
     local start_time=$(date +%s%N)
     local test_output
     local test_result
-    
+
     if test_output=$(eval "$test_command" 2>&1); then
         if [[ -z "$expected_output" ]] || echo "$test_output" | grep -q "$expected_output"; then
             PASSED_TESTS=$((PASSED_TESTS + 1))
@@ -111,22 +111,22 @@ try {
     if (!configContent.includes('export const appConfig')) {
         throw new Error('appConfig export not found');
     }
-    
+
     // Test 2: Check for required functions
     const requiredFunctions = [
         'getApiBaseUrl',
-        'getApiPort', 
+        'getApiPort',
         'getApiEndpoint',
         'updateApiPort',
         'updateApiHost'
     ];
-    
+
     for (const func of requiredFunctions) {
         if (!configContent.includes(func)) {
             throw new Error(`Required function ${func} not found`);
         }
     }
-    
+
     console.log('Configuration validation passed');
     process.exit(0);
 } catch (error) {
@@ -161,7 +161,7 @@ const fs = require('fs');
 try {
     // Check docker-compose.yml for port configurations
     const composeContent = fs.readFileSync('docker-compose.yml', 'utf8');
-    
+
     // Check for required ports
     const requiredPorts = ['5001:5001', '80:80'];
     for (const port of requiredPorts) {
@@ -169,13 +169,13 @@ try {
             throw new Error(`Port mapping ${port} not found in docker-compose.yml`);
         }
     }
-    
+
     // Check config.ts for default port
     const configContent = fs.readFileSync('services/config.ts', 'utf8');
     if (!configContent.includes('port: 5001')) {
         throw new Error('Default port 5001 not found in config');
     }
-    
+
     console.log('Port configuration validation passed');
     process.exit(0);
 } catch (error) {
@@ -216,7 +216,7 @@ print_header "🌐 Network Connectivity Tests"
 # Check if services are running
 if docker-compose ps | grep -q "Up"; then
     print_status "Services are running - testing connectivity"
-    
+
     # Test frontend
     if curl -s -f http://localhost/ > /dev/null; then
         print_success "Frontend connectivity test"
@@ -226,7 +226,7 @@ if docker-compose ps | grep -q "Up"; then
         WARNING_TESTS=$((WARNING_TESTS + 1))
     fi
     TOTAL_TESTS=$((TOTAL_TESTS + 1))
-    
+
     # Test backend
     if curl -s -f http://localhost:5001/health > /dev/null; then
         print_success "Backend connectivity test"

@@ -8,4 +8,4 @@ This package contains the Helios backend components including:
 - Decision engine
 """
 
-__version__ = '0.9.0'
+__version__ = "0.9.0"

@@ -97,7 +97,7 @@ if "%command%"=="cleanup" (
 
 if "%command%"=="health" (
     echo [INFO] Checking service health...
-    
+
     REM Check frontend
     curl -s http://localhost/ >nul 2>&1
     if %errorlevel% equ 0 (
@@ -105,7 +105,7 @@ if "%command%"=="health" (
     ) else (
         echo [ERROR] Frontend is not responding
     )
-    
+
     REM Check backend
     curl -s http://localhost:5001/health >nul 2>&1
     if %errorlevel% equ 0 (

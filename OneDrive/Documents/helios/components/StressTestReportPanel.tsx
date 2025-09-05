@@ -79,7 +79,7 @@ const StressTestReportPanel: React.FC<StressTestReportPanelProps> = ({ log }) =>
             </div>
         );
     }
-    
+
     return (
         <main className="flex-1 p-8 overflow-y-auto">
             <div className="max-w-7xl mx-auto">

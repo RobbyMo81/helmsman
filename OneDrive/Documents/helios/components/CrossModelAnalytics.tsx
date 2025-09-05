@@ -64,7 +64,7 @@ const CrossModelAnalytics: React.FC = () => {
   const [tabValue, setTabValue] = useState(0);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  
+
   // Data states
   const [analyticsSummary, setAnalyticsSummary] = useState<AnalyticsSummary | null>(null);
   const [modelComparison, setModelComparison] = useState<CrossModelComparison | null>(null);
@@ -72,7 +72,7 @@ const CrossModelAnalytics: React.FC = () => {
   const [performanceMatrix, setPerformanceMatrix] = useState<PerformanceMatrix | null>(null);
   const [trendAnalysis, setTrendAnalysis] = useState<TrendAnalysis | null>(null);
   const [selectedModels, setSelectedModels] = useState<string[]>([]);
-  
+
   // UI states
   const [daysBack, setDaysBack] = useState(30);
   const [comparisonType, setComparisonType] = useState('comprehensive');
@@ -85,18 +85,18 @@ const CrossModelAnalytics: React.FC = () => {
     try {
       setLoading(true);
       setError(null);
-      
+
       const response = await fetch(getApiEndpoint(`/api/analytics/models?days=${daysBack}`));
       if (!response.ok) throw new Error('Failed to load analytics summary');
-      
+
       const data = await response.json();
       setAnalyticsSummary(data);
-      
+
       // Auto-select first few models for comparison
       if (data.active_models.length > 0) {
         setSelectedModels(data.active_models.slice(0, Math.min(3, data.active_models.length)));
       }
-      
+
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Unknown error');
     } finally {
@@ -109,11 +109,11 @@ const CrossModelAnalytics: React.FC = () => {
       setError('At least 2 models required for comparison');
       return;
     }
-    
+
     try {
       setLoading(true);
       setError(null);
-      
+
       const response = await fetch('/api/analytics/compare', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -122,12 +122,12 @@ const CrossModelAnalytics: React.FC = () => {
           type: comparisonType
         })
       });
-      
+
       if (!response.ok) throw new Error('Failed to compare models');
-      
+
       const data = await response.json();
       setModelComparison(data);
-      
+
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Unknown error');
     } finally {
@@ -140,11 +140,11 @@ const CrossModelAnalytics: React.FC = () => {
       setError('At least 2 models required for ensemble recommendations');
       return;
     }
-    
+
     try {
       setLoading(true);
       setError(null);
-      
+
       const response = await fetch('/api/analytics/ensemble/recommendations', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -153,12 +153,12 @@ const CrossModelAnalytics: React.FC = () => {
           target_metric: 'loss'
         })
       });
-      
+
       if (!response.ok) throw new Error('Failed to generate ensemble recommendations');
-      
+
       const data = await response.json();
       setEnsembleRecommendations(data.recommendations || []);
-      
+
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Unknown error');
     } finally {
@@ -171,22 +171,22 @@ const CrossModelAnalytics: React.FC = () => {
       setError('At least 2 models required for performance matrix');
       return;
     }
-    
+
     try {
       setLoading(true);
       setError(null);
-      
+
       const response = await fetch('/api/analytics/performance-matrix', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ models: selectedModels })
       });
-      
+
       if (!response.ok) throw new Error('Failed to generate performance matrix');
-      
+
       const data = await response.json();
       setPerformanceMatrix(data);
-      
+
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Unknown error');
     } finally {
@@ -198,13 +198,13 @@ const CrossModelAnalytics: React.FC = () => {
     try {
       setLoading(true);
       setError(null);
-      
+
       const response = await fetch(getApiEndpoint(`/api/analytics/trends?days=${daysBack}`));
       if (!response.ok) throw new Error('Failed to load trend analysis');
-      
+
       const data = await response.json();
       setTrendAnalysis(data);
-      
+
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Unknown error');
     } finally {
@@ -215,7 +215,7 @@ const CrossModelAnalytics: React.FC = () => {
   const handleTabChange = (_event: React.SyntheticEvent, newValue: number) => {
     setTabValue(newValue);
     setError(null);
-    
+
     // Load data for the selected tab
     switch (newValue) {
       case 1:
@@ -287,7 +287,7 @@ const CrossModelAnalytics: React.FC = () => {
           <Typography variant="body1" color="text.secondary">
             Advanced analytics and comparison across multiple models with ensemble recommendations
           </Typography>
-          
+
           {/* Controls */}
           <Grid container spacing={2} sx={{ mt: 2 }}>
             <Grid size={{ xs: 12, md: 3 }}>
@@ -309,7 +309,7 @@ const CrossModelAnalytics: React.FC = () => {
                 valueLabelFormat={(value: number) => `${value} days`}
               />
             </Grid>
-            
+
             <Grid size={{ xs: 12, md: 4 }}>
               <FormControl fullWidth>
                 <InputLabel>Comparison Type</InputLabel>
@@ -324,7 +324,7 @@ const CrossModelAnalytics: React.FC = () => {
                 </Select>
               </FormControl>
             </Grid>
-            
+
             <Grid size={{ xs: 12, md: 5 }}>
               {analyticsSummary && (
                 <Box>
@@ -389,7 +389,7 @@ const CrossModelAnalytics: React.FC = () => {
                     <Typography variant="body2" color="text.secondary" gutterBottom>
                       Active models in {analyticsSummary.time_period}
                     </Typography>
-                    
+
                     <Box sx={{ mt: 2 }}>
                       <Typography variant="h3" color="primary">
                         {analyticsSummary.total_models}
@@ -398,14 +398,14 @@ const CrossModelAnalytics: React.FC = () => {
                         Active Models
                       </Typography>
                     </Box>
-                    
+
                     <Typography variant="body2" sx={{ mt: 2 }}>
                       Last updated: {new Date(analyticsSummary.last_updated).toLocaleString()}
                     </Typography>
                   </CardContent>
                 </Card>
               </Grid>
-              
+
               <Grid size={{ xs: 12, md: 6 }}>
                 <Card>
                   <CardContent>
@@ -415,7 +415,7 @@ const CrossModelAnalytics: React.FC = () => {
                     <Typography variant="body2" color="text.secondary" gutterBottom>
                       Choose models for analysis
                     </Typography>
-                    
+
                     <Box sx={{ mt: 2 }}>
                       <Typography variant="h3" color="primary">
                         {selectedModels.length}
@@ -424,13 +424,13 @@ const CrossModelAnalytics: React.FC = () => {
                         Models Selected
                       </Typography>
                     </Box>
-                    
+
                     {selectedModels.length >= 2 && (
                       <Alert severity="success" sx={{ mt: 2 }}>
                         Ready for cross-model analysis
                       </Alert>
                     )}
-                    
+
                     {selectedModels.length < 2 && (
                       <Alert severity="info" sx={{ mt: 2 }}>
                         Select at least 2 models for comparison
@@ -593,11 +593,11 @@ const CrossModelAnalytics: React.FC = () => {
                         </Typography>
                         <Chip
                           label={`${formatScore(recommendation.confidence_score)} Confidence`}
-                          color={recommendation.confidence_score > 0.8 ? 'success' : 
+                          color={recommendation.confidence_score > 0.8 ? 'success' :
                                  recommendation.confidence_score > 0.6 ? 'warning' : 'default'}
                         />
                       </Box>
-                      
+
                       <Grid container spacing={2}>
                         <Grid size={{ xs: 12, md: 6 }}>
                           <Typography variant="subtitle2" gutterBottom>
@@ -624,7 +624,7 @@ const CrossModelAnalytics: React.FC = () => {
                             </Box>
                           ))}
                         </Grid>
-                        
+
                         <Grid size={{ xs: 12, md: 6 }}>
                           <Typography variant="subtitle2" gutterBottom>
                             Expected Performance
@@ -632,7 +632,7 @@ const CrossModelAnalytics: React.FC = () => {
                           <Typography variant="h4" color="primary" gutterBottom>
                             {formatLoss(recommendation.expected_performance)}
                           </Typography>
-                          
+
                           <Typography variant="subtitle2" gutterBottom sx={{ mt: 2 }}>
                             Risk Assessment
                           </Typography>
@@ -642,7 +642,7 @@ const CrossModelAnalytics: React.FC = () => {
                             size="small"
                           />
                         </Grid>
-                        
+
                         <Grid size={{ xs: 12 }}>
                           <Divider sx={{ my: 1 }} />
                           <Typography variant="body2" color="text.secondary">
@@ -695,7 +695,7 @@ const CrossModelAnalytics: React.FC = () => {
                         const value = performanceMatrix.data[metricIndex][modelIndex];
                         return (
                           <TableCell key={metric} align="right">
-                            {value !== null ? 
+                            {value !== null ?
                               (metric.includes('loss') ? formatLoss(value) : formatScore(value))
                               : 'N/A'
                             }
@@ -801,8 +801,8 @@ const CrossModelAnalytics: React.FC = () => {
                                 </Box>
                               </TableCell>
                               <TableCell align="right">
-                                <Typography 
-                                  color={trend.improvement_rate > 0 ? 'success.main' : 
+                                <Typography
+                                  color={trend.improvement_rate > 0 ? 'success.main' :
                                          trend.improvement_rate < 0 ? 'error.main' : 'text.primary'}
                                 >
                                   {(trend.improvement_rate * 100).toFixed(1)}%

@@ -83,7 +83,7 @@ export const TrainingProgress: React.FC<TrainingProgressProps> = ({
     // Update progress bar width via CSS custom property
     useEffect(() => {
         if (progressBarRef.current && status) {
-            const progressPercentage = status.total_epochs 
+            const progressPercentage = status.total_epochs
                 ? Math.round((status.current_epoch / status.total_epochs) * 100)
                 : 0;
             progressBarRef.current.style.setProperty('--progress-width', `${progressPercentage}%`);
@@ -133,7 +133,7 @@ export const TrainingProgress: React.FC<TrainingProgressProps> = ({
         );
     }
 
-    const progressPercentage = status.total_epochs 
+    const progressPercentage = status.total_epochs
         ? Math.round((status.current_epoch / status.total_epochs) * 100)
         : 0;
 
@@ -170,7 +170,7 @@ export const TrainingProgress: React.FC<TrainingProgressProps> = ({
                     <span>{progressPercentage}%</span>
                 </div>
                 <div className="w-full bg-gray-700 rounded-full h-2">
-                    <div 
+                    <div
                         ref={progressBarRef}
                         className="bg-blue-600 h-2 rounded-full transition-all duration-300 training-progress-bar"
                         data-progress={progressPercentage}
@@ -214,24 +214,24 @@ export const TrainingProgress: React.FC<TrainingProgressProps> = ({
                         <ResponsiveContainer width="100%" height={200}>
                             <LineChart data={lossData}>
                                 <CartesianGrid strokeDasharray="3 3" stroke="#374151" />
-                                <XAxis 
-                                    dataKey="epoch" 
+                                <XAxis
+                                    dataKey="epoch"
                                     stroke="#9CA3AF"
                                     fontSize={12}
                                 />
-                                <YAxis 
+                                <YAxis
                                     stroke="#9CA3AF"
                                     fontSize={12}
                                     tickFormatter={(value: number) => value.toFixed(4)}
                                 />
-                                <Tooltip 
+                                <Tooltip
                                     contentStyle={tooltipStyle}
                                     formatter={(value: number) => [value.toFixed(6), 'Loss']}
                                 />
-                                <Line 
-                                    type="monotone" 
-                                    dataKey="loss" 
-                                    stroke="#3B82F6" 
+                                <Line
+                                    type="monotone"
+                                    dataKey="loss"
+                                    stroke="#3B82F6"
                                     strokeWidth={2}
                                     dot={false}
                                 />

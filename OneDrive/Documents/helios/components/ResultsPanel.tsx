@@ -49,7 +49,7 @@ const ResultsPanel: React.FC<ResultsPanelProps> = ({ isLoading, error, results, 
     if (results) {
       const sortedResults = (Object.entries(results) as [PrizeTier, number][])
         .sort(([tierA], [tierB]) => PRIZE_TIER_ORDER.indexOf(tierA) - PRIZE_TIER_ORDER.indexOf(tierB));
-      
+
       return (
         <div className="space-y-8">
             <div>

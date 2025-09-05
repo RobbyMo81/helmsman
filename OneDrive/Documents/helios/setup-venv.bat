@@ -36,7 +36,7 @@ if exist "backend\venv" (
     echo [INFO] Virtual environment already exists
     choice /c YN /m "Do you want to recreate it? (Y/N)"
     if errorlevel 2 goto activate_existing
-    
+
     echo [INFO] Removing existing virtual environment...
     rmdir /s /q "backend\venv"
 )
@@ -82,7 +82,7 @@ REM Install dependencies
 if exist "backend\requirements.txt" (
     echo [INFO] Installing Python dependencies...
     pip install -r backend\requirements.txt
-    
+
     if errorlevel 1 (
         echo [ERROR] Failed to install some dependencies
         echo Check the output above for details
@@ -90,7 +90,7 @@ if exist "backend\requirements.txt" (
         pause
         exit /b 1
     )
-    
+
     echo [SUCCESS] Dependencies installed successfully
 ) else (
     echo [WARNING] No requirements.txt found, skipping dependency installation
