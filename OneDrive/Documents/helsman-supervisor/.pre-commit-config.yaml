@@ -10,10 +10,11 @@ repos:
       - id: end-of-file-fixer
       - id: trailing-whitespace
       - id: check-yaml
-  - repo: local
-    hooks:
-      - id: utf8-encoding-check
-        name: UTF-8 Encoding Validator
-        entry: python diagnostics/validate_encoding.py
-        language: system
-        types: [text]
+  # Temporarily disabled - path issue with monorepo structure
+  #   - repo: local
+  #     hooks:
+  #       - id: utf8-encoding-check
+  #         name: UTF-8 Encoding Validator
+  #         entry: python diagnostics/validate_encoding.py
+  #         language: system
+  #         types: [text]
