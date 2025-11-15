@@ -607,6 +607,77 @@ htmlcov/
 *.lprof
 
 # ==============================================================================
+# ADDITIONAL USER DIRECTORIES AND PROJECTS
+# ==============================================================================
+# User home directory - untracked projects and directories
+.thinkorswim/
+Documents/
+.849C9593-D756-4E56-8D6E-42412F2A707B
+GEMINI.md
+dev/
+helios-project/
+
+# OneDrive root level files and directories
+OneDrive/*.docx
+OneDrive/*.png
+OneDrive/RandomNumber/
+
+# Standalone project directories in OneDrive/Documents/
+OneDrive/Documents/AI_FrameWork/
+OneDrive/Documents/Analyze_Trades/
+OneDrive/Documents/CSV_Reader/
+OneDrive/Documents/HeliosCpp/
+OneDrive/Documents/LottoDataAnalyzer/
+OneDrive/Documents/MarkdownRelocatorApp/
+OneDrive/Documents/PercentofChange/
+OneDrive/Documents/PowerBall/
+OneDrive/Documents/STAMP-benchmark/
+OneDrive/Documents/Sector_Rotator/
+OneDrive/Documents/Sentiment_Analyzer/
+OneDrive/Documents/Systema/
+OneDrive/Documents/ToS_Transactions/
+OneDrive/Documents/Trade-Assistant/
+OneDrive/Documents/VSCodeLLMTest/
+OneDrive/Documents/WEB3Decentrelazed/
+OneDrive/Documents/adu-permitting/
+OneDrive/Documents/app/
+OneDrive/Documents/commitment-of-traders/agents/
+OneDrive/Documents/commitment-of-traders/scribe_agent/
+OneDrive/Documents/dataframe/
+OneDrive/Documents/diagnostictool/
+OneDrive/Documents/document-merger/
+OneDrive/Documents/first-light/
+OneDrive/Documents/formater/
+OneDrive/Documents/helios/
+OneDrive/Documents/news_watcher/
+OneDrive/Documents/password-manager/
+OneDrive/Documents/powerball_insights/
+OneDrive/Documents/powerball_insights1/
+OneDrive/Documents/prediction-vs-reality-logger/
+OneDrive/Documents/receipts/
+OneDrive/Documents/sector-rotation-app/
+OneDrive/Documents/th-analysis/
+OneDrive/Documents/tos-performance-R/
+OneDrive/Documents/trade-analyst/
+OneDrive/Documents/claude-agent-templates-new/
+OneDrive/Documents/claude-agent-templates/
+
+# Standalone text files and notes in OneDrive/Documents/
+OneDrive/Documents/*.txt
+OneDrive/Documents/*.md
+OneDrive/Documents/*.bat
+OneDrive/Documents/*.json
+OneDrive/Documents/*.html
+OneDrive/Documents/*.png
+OneDrive/Documents/*.py
+OneDrive/Documents/*.ps1
+OneDrive/Documents/*.psm1
+OneDrive/Documents/*.docx
+
+# Keep only tracked projects
+!OneDrive/Documents/helsman-supervisor/
+
+# ==============================================================================
 # EXCEPTIONS (Files to always track despite patterns above)
 # ==============================================================================
 # Force include certain files if needed
